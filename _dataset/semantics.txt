@@ -1,0 +1,16 @@
+connections: Represent the edges. 
+Station 1 means the starting node, Station 2 means the ending node.
+Line means the line that a rider would take to get from Station 1 to Station 2
+Time means the time that it takes to get from Station 1 to Station 2, using this specific line.
+    We are thinking of using time to Represent the "distance" of the path. 
+
+
+lines: Additional information regarding edges
+Line, Name, Colour are all unique identifiers for the edges.
+Stripe, we are unsure what it represents at the moment.
+
+stations: The nodes in our graph
+Id, Name is a unique identifier for the station
+latitude, longitude tell us where the station is placed on a map.
+Display Name is NULL when the name does not contain a space
+Zone, Total lines, rail are unknown at the moment.
