@@ -14,3 +14,12 @@ Id, Name is a unique identifier for the station
 latitude, longitude tell us where the station is placed on a map.
 Display Name is NULL when the name does not contain a space
 Zone, Total lines, rail are unknown at the moment.
+
+
+JUSTIFICATION FOR GB:
+make interface for graph builder class. have pre defined empty functions
+that will be inherited for every new GB for every new CSV file format.
+swap at runtime, graph generation and ME should remain same.
+good for anticipating (unknown) change. **FACTORY PATTERN / STRATEGY PATTERN**
+
+factory for swapping GB. strategy for swapping shortest path algorithm.
