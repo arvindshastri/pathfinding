@@ -1,35 +1,45 @@
-import csv
-from tkinter.font import names
-
-
-class Station:
-    def __init__(self, name, id, latitude, longitude, display_name, zone, total_lines, rail):
-        self.name = name
-        self.id = id
-        self.latitude = latitude
-        self.longitude = longitude
-        self.display_name = display_name
-        self.zone = zone
-        self.total_lines = total_lines
-        self.rail = rail
-
-
-class Lines:
-    def __init__(self, line, name, colour, stripe):
-        self.line = line
-        self.name = name
-        self.colour = colour
-        self.stripe = stripe
-
-
-my_list = []
-
-with open('london.stations.csv', 'r') as csv_file:
-    reader = csv.reader(csv_file)
-
-    for line in reader:
-        my_list.append(Station(line[0]))
-        print(my_list)
-        
-
-
+adj_list = {}
+mylist = []
+def add_node(node):
+  if node not in mylist:
+    mylist.append(node)
+  else:
+    print("Node ",node," already exists!")
+ 
+def add_edge(node1, node2, weight):
+  temp = []
+  if node1 in mylist and node2 in mylist:
+    if node1 not in adj_list:
+      temp.append([node2,weight])
+      adj_list[node1] = temp
+   
+    elif node1 in adj_list:
+      temp.extend(adj_list[node1])
+      temp.append([node2,weight])
+      adj_list[node1] = temp
+       
+  else:
+    print("Nodes don't exist!")
+ 
+def graph():
+  for node in adj_list:
+    print(node, " ---> ", [i for i in adj_list[node]])
+ 
+#Adding nodes
+add_node(0)
+add_node(1)
+add_node(2)
+add_node(3)
+add_node(4)
+#Adding edges
+add_edge(0,1,2)
+add_edge(1,2,4)
+add_edge(2,3,2)
+add_edge(3,4,6)
+add_edge(4,0,3)
+ 
+#Printing the graph
+graph()
+ 
+#Printing the adjacency list
+print(adj_list)
