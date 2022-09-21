@@ -1,0 +1,46 @@
+WHEN WE READ THE LINES OF THE CSV, STORE THE LINE IN A TEMP VAR 
+SO THAT IT IS MORE CONVENIENT TO CALL.
+
+
+STATION READER PSEUDO
+have class definition of station up here?
+
+for line+1 in stations.csv:
+    create a station object with parameters along the row
+    append to a "stations" list 
+return the list as function output
+
+
+LINE READER PSEUDO
+have class def
+for line+1 in lines.csv:
+    create line object with parameters fed in
+    append object to "lines" DICTIONARY
+return DICTIONARY as function output
+
+
+#dict because we can key into the dict at a constant time, 
+rather than traversing the list to find the relevant line.
+
+
+CONNECTION READER PSEUDO(line list)
+have class definitions of CONNECTION (has S1, S2, CI), 
+CONNECTION INFO (line, time, other metrics if necessary)
+for line+1 in connection.csv:
+    line OBJECT (put key into dict to obtain relevant line)
+    , time will be fed into connection info object creation.
+    connection object creation will be fed s1(OBJECTS), s2, above CI object.
+    append object to "connections" list
+return list as function output.
+
+
+GRAPH GENERATION PSEUDO (station list, connection list)
+#use adjacency list, google an implementation using dictionaries.
+
+
+
+
+
+
+
+USE DICTONARY, SINCE STATION 1 CAN JUST BE S1 KEY.
