@@ -43,10 +43,4 @@ def csvReaderConnections(lines, stations):
     
     return connections
 
-tempLines = csvReaderLines()
-tempStations = csvReaderStations()
-tempConnections = csvReaderConnections(tempLines, tempStations)
-pprint.pprint(tempLines)
-pprint.pprint(tempStations)
-# pprint.pprint(tempConnections)
     

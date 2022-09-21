@@ -7,10 +7,14 @@ class Station():
         self.id = id
         self.latitude = latitude
         self.longitude = longitude
-        self.display_name = display_name
+        self.display_name = display_name #bad
         self.zone = zone
         self.total_lines = total_lines
         self.rail = rail
+    
+    def get_name(self):
+        return self.name
+
 
 
 def csvReaderStations():
