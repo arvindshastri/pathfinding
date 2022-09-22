@@ -61,10 +61,10 @@ def add_line(connection): #equivalent to adding edges into existence
  
 def graph():
     for node in adj_list:
-      tempNodePrint = node.get_name()
+      tempNodePrint = node.get_id()
       tempList = []
       for i in adj_list[node]:
-        tempList.append([i[0].get_name(), i[1]])
+        tempList.append([i[0].get_id(), i[1].get_name()])
       
       print(tempNodePrint, " ---> ", tempList)
 

@@ -35,8 +35,10 @@ def csvReaderConnections(londonConnections, lines, stations):
             station2 = stations[row[1]]
             line = lines[row[2]]
             time = row[3]
-            
+
+            CIname = "Station{0}toStation{1}".format(str(station1.get_id()), str(station2.get_id()))
             tempConnectionInfo = ConnectionInfo(line, time)
+            tempConnectionInfo.set_name(CIname)
             tempConnection = Connection(station1, station2, tempConnectionInfo)
             connections.append(tempConnection)
     
