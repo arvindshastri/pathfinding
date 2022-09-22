@@ -1,45 +1,56 @@
-adj_list = {}
-mylist = []
-def add_node(node):
-  if node not in mylist:
-    mylist.append(node)
-  else:
-    print("Node ",node," already exists!")
- 
-def add_edge(node1, node2, weight):
-  temp = []
-  if node1 in mylist and node2 in mylist:
-    if node1 not in adj_list:
-      temp.append([node2,weight])
-      adj_list[node1] = temp
-   
-    elif node1 in adj_list:
-      temp.extend(adj_list[node1])
-      temp.append([node2,weight])
-      adj_list[node1] = temp
-       
-  else:
-    print("Nodes don't exist!")
- 
-def graph():
-  for node in adj_list:
-    print(node, " ---> ", [i for i in adj_list[node]])
- 
-#Adding nodes
-add_node(0)
-add_node(1)
-add_node(2)
-add_node(3)
-add_node(4)
-#Adding edges
-add_edge(0,1,2)
-add_edge(1,2,4)
-add_edge(2,3,2)
-add_edge(3,4,6)
-add_edge(4,0,3)
- 
-#Printing the graph
-graph()
- 
-#Printing the adjacency list
-print(adj_list)
+class GraphBuilder():
+  
+  adj_list = {}
+  mylist = []
+
+
+  def __init__(self, stationsDict, linesDict, connectionsList):
+    self.stationsDict = stationsDict
+    self.linesDict = linesDict
+    self.connectionsList = connectionsList
+
+
+  def add_station(self, station): #equivalent to adding nodes into existence
+    if station not in self.mylist:
+      self.mylist.append(station)
+    else:
+      print("Station ",station.get_name()," already exists!")
+  
+
+  def add_line(self, connection): #equivalent to adding edges into existence
+    temp = []
+    connectionInfo = connection.get_information()
+    station1 = connection.get_station1()
+    station2 = connection.get_station2()
+
+
+    if any(node is station1 for node in self.mylist) and any(node is station2 for node in self.mylist):
+        if not any(node is station1 for node in self.adj_list):
+          temp.append([station2,connectionInfo])
+          self.adj_list[station1] = temp
+        
+        elif any(node is station1 for node in self.adj_list):
+          temp.extend(self.adj_list[station1])
+          temp.append([station2,connectionInfo])
+          self.adj_list[station1] = temp
+    
+    else:
+      print("Stations don't exist!")
+
+
+  def load_graph(self):
+    for station in self.stationsDict.values():
+      self.add_station(station)
+
+    for connection in self.connectionsList:
+      self.add_line(connection)
+
+
+  def print_graph(self):
+    for node in self.adj_list:
+      tempNodePrint = node.get_id()
+      tempList = []
+      for i in self.adj_list[node]:
+        tempList.append([i[0].get_id(), i[1].get_name()])
+      
+      print(tempNodePrint, " ---> ", tempList)

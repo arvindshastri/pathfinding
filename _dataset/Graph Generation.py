@@ -1,20 +1,13 @@
-import pprint
-import csv
-from Line import csvReaderLines
-from Station import csvReaderStations
-from Connection import csvReaderConnections
+
+'''
+
+THIS FILE IS A PLACE FOR OLD CODE RELATED TO GRAPH GENERATION
+
+'''
 
 
-londonLines = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.lines.csv"
-londonStations = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.stations.csv"
-londonConnections = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.connections.csv"
+##
 
-tempLines = csvReaderLines(londonLines)
-tempStations = csvReaderStations(londonStations)
-tempConnections = csvReaderConnections(londonConnections, tempLines, tempStations)
-# pprint.pprint(tempLines)
-# pprint.pprint(tempStations)
-# pprint.pprint(tempConnections)
 
 adj_list = {}
 mylist = []
@@ -71,11 +64,11 @@ def graph():
         # print(node.get_name(), " ---> ", [i for i in adj_list[node]])
 
 
-for station in tempStations.values():
-    add_station(station)
+# for station in stations.values():
+#     add_station(station)
 
-for connection in tempConnections:
-    add_line(connection)
+# for connection in connections:
+#     add_line(connection)
 
 # station11 = add_station(Station(11,51.5226,-0.1571,"Baker Street","Baker<br />Street",1,5,0))
 # station163 = add_station(Station(163,51.5225,-0.1631,"Marylebone",NULL,1,1,1))
