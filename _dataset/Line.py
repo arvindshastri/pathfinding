@@ -28,11 +28,11 @@ class Line:
 
 
 
-def csvReaderLines():
+def csvReaderLines(csv_lines_string):
 
     lines = {}
 
-    with open('london.lines.csv', 'r') as csvLines:
+    with open(csv_lines_string, 'r') as csvLines:
         reader = csv.reader(csvLines)
         headers = next(reader)
         position = headers.index('line')

@@ -4,7 +4,6 @@ from ConnectionInfo import ConnectionInfo
 from Station import csvReaderStations
 from Line import csvReaderLines
 
-
 class Connection:
 
     def __init__(self, station1, station2, information):
@@ -22,11 +21,11 @@ class Connection:
         return self.information
 
 
-def csvReaderConnections(lines, stations):
+def csvReaderConnections(londonConnections, lines, stations):
 
     connections = []
 
-    with open('london.connections.csv', 'r') as csvLines:
+    with open(londonConnections) as csvLines:
         reader = csv.reader(csvLines)
         next(reader)
         
@@ -43,4 +42,4 @@ def csvReaderConnections(lines, stations):
     
     return connections
 
-    
+##################

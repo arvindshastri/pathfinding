@@ -14,14 +14,17 @@ class Station():
     
     def get_name(self):
         return self.name
+    
+    def get_id(self):
+        return self.id
 
 
 
-def csvReaderStations():
+def csvReaderStations(csv_stations_string):
 
     stations = {}
 
-    with open('london.stations.csv', 'r') as csvStations:
+    with open(csv_stations_string, 'r') as csvStations:
         reader = csv.reader(csvStations)
         headers = next(reader)
         position = headers.index('id')
