@@ -1,8 +1,25 @@
 import csv
-import pprint
-from ConnectionInfo import ConnectionInfo
-from Station import csvReaderStations
-from Line import csvReaderLines
+
+class ConnectionInfo:
+
+    name = ""
+
+    def __init__(self, line, time):
+        self.line = line
+        self.time = time
+
+    def get_line(self):
+        return self.line
+
+    def get_time(self):
+        return self.time
+
+    def get_name(self):
+        return self.name
+    
+    def set_name(self, string):
+        self.name = string
+    
 
 class Connection:
 
@@ -43,5 +60,3 @@ def csvReaderConnections(londonConnections, lines, stations):
             connections.append(tempConnection)
     
     return connections
-
-##################

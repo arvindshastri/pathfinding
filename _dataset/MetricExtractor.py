@@ -1,5 +1,0 @@
-'''
-
-graph metric extraction
-
-'''
