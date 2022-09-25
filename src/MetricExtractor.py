@@ -1,21 +1,12 @@
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt    
 
-def numberNodes(graph):
-    count = 0
-    for i in graph.stationsDict:
-        count+=1
-    
-    return count
+def numberOfNodes(graph):
+    return len(graph.stationsDict)
 
-def numberConnections(graph):
-    count = 0
-    for node in graph.adj_list:
-        for i in graph.adj_list[node]:
-            count+=1
-    
-    return count
+def numberOfConnections(graph):     
+    return len(graph.connectionsList) / 2
 
-def numberDegreesperNode(graph):
+def numberOfDegreesPerNode(graph):
     
     degreeLengthDict = {}
 
@@ -28,8 +19,6 @@ def numberDegreesperNode(graph):
         else: 
             degreeLengthDict[mappedNode] = len(graph.adj_list[node])
         
-        # print("node", mappedNode)
-        
         for i in graph.adj_list[node]:
             
             connectingStation = i[0].get_id()
@@ -38,16 +27,15 @@ def numberDegreesperNode(graph):
                 degreeLengthDict[connectingStation] += 1
             else: 
                 degreeLengthDict[connectingStation] = 1
-            
-            # print("adj", connectingStation)
 
     return degreeLengthDict
 
-def numberDegreesperStation(graph):
+
+def numberOfDegreesPerStation(graph):
     
     degreesList = {}
 
-    degreeLengthDict = numberDegreesperNode(graph)
+    degreeLengthDict = numberOfDegreesPerNode(graph)
     
     for i in degreeLengthDict:
         deg = degreeLengthDict[i]
@@ -58,12 +46,14 @@ def numberDegreesperStation(graph):
     
     return degreesList
     
-def numberAvgDegree(graph):
-    numDeg = sum(numberDegreesperNode(graph).values())
-    return (numDeg / numberNodes(graph))
 
-def plotNumberDegrees(graph):
-    degreeLengthDict = numberDegreesperStation(graph)
+def averageDegree(graph):
+    numDeg = sum(numberOfDegreesPerNode(graph).values())
+    return (numDeg / numberOfNodes(graph))
+
+
+def plotDegreeFrequency(graph):
+    degreeLengthDict = numberOfDegreesPerStation(graph)
 
     degreeKeys = list(degreeLengthDict.keys())
     degreeValues = list(degreeLengthDict.values())

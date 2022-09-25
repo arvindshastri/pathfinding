@@ -37,6 +37,13 @@ class Connection:
     def get_information(self):
         return self.information
 
+def connectionBuilder(station1, station2, line, time):
+    CIname1 = "Station{0}toStation{1}".format(str(station1.get_id()), str(station2.get_id()))
+    tempConnectionInfo1 = ConnectionInfo(line, time)
+    tempConnectionInfo1.set_name(CIname1)
+    tempConnection1 = Connection(station1, station2, tempConnectionInfo1)
+    
+    return tempConnection1
 
 def csvReaderConnections(londonConnections, lines, stations):
 
@@ -51,12 +58,12 @@ def csvReaderConnections(londonConnections, lines, stations):
             station1 = stations[row[0]]
             station2 = stations[row[1]]
             line = lines[row[2]]
-            time = row[3]
+            time = int(row[3])
 
-            CIname = "Station{0}toStation{1}".format(str(station1.get_id()), str(station2.get_id()))
-            tempConnectionInfo = ConnectionInfo(line, time)
-            tempConnectionInfo.set_name(CIname)
-            tempConnection = Connection(station1, station2, tempConnectionInfo)
-            connections.append(tempConnection)
+            tempConnection1 = connectionBuilder(station1, station2, line, time)
+            tempConnection2 = connectionBuilder(station2, station1, line, time)
+            connections.append(tempConnection1)
+            connections.append(tempConnection2)
+            
     
     return connections
