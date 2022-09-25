@@ -17,6 +17,12 @@ class Station():
     
     def get_id(self):
         return self.id
+    
+    def get_latitude(self):
+        return self.latitude
+    
+    def get_longitude(self):
+        return self.longitude
 
 
 
