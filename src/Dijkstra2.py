@@ -46,7 +46,7 @@ while queue:
             adj_node[i[0]] = cur
             
             
-x = graph.stationsDict['273']
+x = graph.stationsDict['193']
 
 pathList = []
 infoList = []
