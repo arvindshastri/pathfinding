@@ -25,7 +25,7 @@ class GraphBuilder():
                 temp.append([station2, connectionInfo])
                 self.adj_list[station1] = temp
 
-            elif any(node is station1 for node in self.adj_list):
+            else:
                 temp.extend(self.adj_list[station1])
                 temp.append([station2, connectionInfo])
                 self.adj_list[station1] = temp
