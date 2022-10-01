@@ -15,7 +15,7 @@ class GraphBuilder():
         if station not in self.mylist:
             self.mylist.append(station)
         else:
-            print("Station ", station.get_name(), " already exists!")
+            print("Station ", station.get_id(), " already exists!")
 
     def add_line(self, connection):  # equivalent to adding edges into existence
         temp = []
@@ -24,14 +24,14 @@ class GraphBuilder():
         station2 = connection.get_station2()
 
         if any(node is station1 for node in self.mylist) and any(node is station2 for node in self.mylist):  # if stations valid
-            if not any(node is station1 for node in self.adj_list):
-                temp.append([station2, connectionInfo])
-                self.adj_list[station1] = temp
+                if not any(node is station1 for node in self.adj_list):
+                    temp.append([station2, connectionInfo])
+                    self.adj_list[station1] = temp
 
-            else:
-                temp.extend(self.adj_list[station1])
-                temp.append([station2, connectionInfo])
-                self.adj_list[station1] = temp
+                else:
+                    temp.extend(self.adj_list[station1])
+                    temp.append([station2, connectionInfo])
+                    self.adj_list[station1] = temp
 
         else:
             print("Stations don't exist!")

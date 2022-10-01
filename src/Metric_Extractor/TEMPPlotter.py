@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import pprint
 from DegPerStation import numberOfDegreesPerStation
 
 def plotDegreeFrequency(graph):
