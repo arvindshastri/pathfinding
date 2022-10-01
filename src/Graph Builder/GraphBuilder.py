@@ -8,6 +8,9 @@ class GraphBuilder():
         self.linesDict = linesDict
         self.connectionsList = connectionsList
 
+    def get_stationsDict(self):
+        return self.stationsDict
+
     def add_station(self, station):  # equivalent to adding nodes into existence
         if station not in self.mylist:
             self.mylist.append(station)
