@@ -1,8 +1,8 @@
-import matplotlib.pyplot as plt    
+import matplotlib.pyplot as plt
+from DegPerStation import numberOfDegreesPerStation
 
 def plotDegreeFrequency(graph):
     degreeLengthDict = numberOfDegreesPerStation(graph)
-
     degreeKeys = list(degreeLengthDict.keys())
     degreeValues = list(degreeLengthDict.values())
 
