@@ -1,5 +1,4 @@
-from math import sin, cos, sqrt, atan2, radians
-import pprint
+import sys
 
 # Index values for g-score, f-score and previous node
 G_SCORE = 0
@@ -8,19 +7,17 @@ PREVIOUS = 2
 
 def get_heuristic(station1, station2):
 
-    R = 6373.0
-    lat1 = radians(float(station1.get_latitude()))
-    lon1 = radians(float(station1.get_longitude()))
-    lat2 = radians(float(station2.get_latitude()))
-    lon2 = radians(float(station2.get_longitude()))
+    lat1 = float(station1.get_latitude())
+    lon1 = float(station1.get_longitude())
+    lat2 = float(station2.get_latitude())
+    lon2 = float(station2.get_longitude())
 
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
+    dlon = lon1 - lon2
+    dlat = lat1 - lat2
 
-    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
-    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    distance = dlat*dlat + dlon*dlon
 
-    return R*c
+    return distance
 
 def get_minimum(unvisited):
     min = float('infinity')
@@ -32,11 +29,89 @@ def get_minimum(unvisited):
     
     return tempNode
 
+def output_helper(graph, pathList):
+    
+    infoList = []
+    currentLine = ""
+    count = 0
+
+    while count < (len(pathList) - 1):
+
+        x = graph.stationsDict[pathList[count]]
+        y = graph.stationsDict[pathList[count+1]]
+
+        tempAdjList = []
+        potentialStations = []
+        selectedStation = []
+        
+        min = float('infinity')
+        
+        for i in graph.adj_list[x]:
+            if i[0] == y:
+                tempAdjList.append(i)
+                if i[1].get_time() <= min:
+                    min = i[1].get_time()
+                    potentialStations.append(i)
+            
+        for i in potentialStations:
+            if currentLine == i[1].get_line().get_name():
+                selectedStation = i
+        if len(selectedStation) == 0:
+            selectedStation = i
+
+        
+        string = "{0} --> {1}".format(x.get_id(), y.get_id())
+        lineName = selectedStation[1].get_line().get_name()
+        lineID = selectedStation[1].get_line().get_line()
+        time = selectedStation[1].get_time()
+        currentLine = lineName
+        infoList.append([string, lineName, lineID, time])
+        count += 1
+    
+    return infoList
+
+
+def pathList(visited, target_node):
+
+    x = target_node
+    pathList = []
+    pathList.append(target_node.get_id())
+
+    while True:
+        x = visited[x][PREVIOUS] 
+    
+        if x == None:
+            break
+        pathList.append(x.get_id())
+
+    pathList.reverse()
+    return pathList
+
+def calculateTime(infoList):
+    total = 0
+    for row in infoList:
+        total += row[3]
+    return total
+
+def prettyOutput(infoList):    
+    
+    total = calculateTime(infoList)
+
+    print("{: <20} {: <30} {: <20} {: <10}".format("Stations", "Line", "Line Number", "Time"))
+    print("---------------------------------------------------------------------------------")
+    for row in infoList:
+        print("{: <20} {: <30} {: <20} {: <10}".format(*row))
+    print("\n")
+    print("{: <20} {: <30} {: <20} {: <10}".format("", "", "Total Time:", total))
+    print("\n")
+
 def a_star(graph, start_node, target_node):
     
     # Declare the visited and unvisited lists as dictionaries
     visited = {} 
     unvisited = {}
+    start_node = graph.stationsDict[start_node]
+    target_node = graph.stationsDict[target_node]
 
     # Add and initialise every node to the unvisited list
     for node in graph.adj_list:
@@ -61,8 +136,8 @@ def a_star(graph, start_node, target_node):
             # Check if the current node is the target node
             if current_node == target_node:
                 # Add the current node to the visited list
-                finished = True
                 visited[current_node] = unvisited[current_node]
+                finished = True
             else:
                 # Get the current node's list of neighbours
                 neighbours = graph.adj_list[current_node]
@@ -89,21 +164,24 @@ def a_star(graph, start_node, target_node):
                 del unvisited[current_node]
 
     # Return the final visited list
+    pathListTemp = pathList(visited, target_node)
+    infoListTemp = output_helper(graph, pathListTemp)
+    prettyOutput(infoListTemp)
 
-    for i in visited.keys():
-        print(i.get_id())
-
-    return visited
+    return 
 
 
-from Line import csvReaderLines
-from Station import csvReaderStations
-from Connection import csvReaderConnections
+sys.path.insert(1, '../../src/Graph Builder') #running
+#sys.path.insert(0, './src/Graph Builder') #debugging
+
+from CsvLine import csvReaderLines
+from CsvStation import csvReaderStations
+from CsvConnection import csvReaderConnections
 from GraphBuilder import GraphBuilder
 
-londonLines = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.lines.csv"
-londonStations = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.stations.csv"
-londonConnections = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.connections.csv"
+londonLines = "./../../_dataset/london.lines.csv"
+londonStations = "./../../_dataset/london.stations.csv"
+londonConnections = "./../../_dataset/london.connections.csv"
 
 tempStations = csvReaderStations(londonStations)
 tempLines = csvReaderLines(londonLines)
@@ -112,5 +190,4 @@ tempConnections = csvReaderConnections(londonConnections, tempLines, tempStation
 graph = GraphBuilder(tempStations, tempLines, tempConnections)
 graph.load_graph()
 
-a_star(graph, graph.stationsDict['11'], graph.stationsDict['82'])
-
+aStar = a_star(graph, '11', '30')

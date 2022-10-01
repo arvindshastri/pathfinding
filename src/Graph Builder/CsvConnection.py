@@ -1,5 +1,5 @@
 import csv
-from Connection import connectionBuilder, Connection, ConnectionInfo
+from Connection import *
 
 def csvReaderConnections(londonConnections, lines, stations):
 

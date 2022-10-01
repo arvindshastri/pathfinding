@@ -1,4 +1,3 @@
-
 class ConnectionInfo:
 
     name = ""

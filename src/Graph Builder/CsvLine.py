@@ -1,5 +1,5 @@
 import csv
-import Line
+from Line import *
 
 def csvReaderLines(csv_lines_string):
 

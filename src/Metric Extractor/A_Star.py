@@ -19,17 +19,17 @@ def heuristic(station1, station2):
     return R*c
 
 def a_star_search(graph, start, goal):
-    frontier = [(0, start)] 
+    pq = [(0, start)] 
     came_from = {}
     cost_so_far = {}
     came_from[start] = None
     cost_so_far[start] = 0
     
-    while len(frontier) > 0:
-        current_priority, current = heapq.heappop(frontier)
+    while len(pq) > 0:
+        current_priority, current = heapq.heappop(pq)
         
         if current.get_id() == goal.get_id():
-            break
+            return came_from, cost_so_far
         
         for next in graph.adj_list[current]:
             tempNode = next[0]
@@ -37,20 +37,26 @@ def a_star_search(graph, start, goal):
             if tempNode not in cost_so_far or new_cost < cost_so_far[tempNode]:
                 cost_so_far[tempNode] = new_cost
                 priority = new_cost + heuristic(tempNode, goal)
-                heapq.heappush(frontier, (priority, tempNode))
+                heapq.heappush(pq, (priority, tempNode))
                 came_from[tempNode] = current
+
+    for i in cost_so_far.keys():
+        print(i.get_id())
+
 
     return came_from, cost_so_far
 
+sys.path.insert(1, '../../src/Graph Builder') #running
+#sys.path.insert(0, './src/Graph Builder') #debugging
 
-from Line import csvReaderLines
-from Station import csvReaderStations
-from Connection import csvReaderConnections
+from CsvLine import csvReaderLines
+from CsvStation import csvReaderStations
+from CsvConnection import csvReaderConnections
 from GraphBuilder import GraphBuilder
 
-londonLines = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.lines.csv"
-londonStations = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.stations.csv"
-londonConnections = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.connections.csv"
+londonLines = "./../../_dataset/london.lines.csv"
+londonStations = "./../../_dataset/london.stations.csv"
+londonConnections = "./../../_dataset/london.connections.csv"
 
 tempStations = csvReaderStations(londonStations)
 tempLines = csvReaderLines(londonLines)

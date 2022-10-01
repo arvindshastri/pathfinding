@@ -1,5 +1,5 @@
 import csv
-import Station
+from Station import *
 
 def csvReaderStations(csv_stations_string):
 
