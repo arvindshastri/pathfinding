@@ -1,4 +1,5 @@
 import sys
+import pprint
 
 def output_helper(graph, pathList):
     
@@ -11,16 +12,15 @@ def output_helper(graph, pathList):
         x = graph.stationsDict[pathList[count]]
         y = graph.stationsDict[pathList[count+1]]
 
-        tempAdjList = []
         potentialStations = []
         selectedStation = []
+        threshold = 3
         
         min = float('infinity')
         
         for i in graph.adj_list[x]:
             if i[0] == y:
-                tempAdjList.append(i)
-                if i[1].get_time() <= min:
+                if i[1].get_time() <= min + threshold:
                     min = i[1].get_time()
                     potentialStations.append(i)
             
@@ -109,12 +109,36 @@ def dijkstra(graph, start_node, target_node):
                 path[i[0].get_id()] = alternate
                 adj_node[i[0]] = cur
     
+
     pathListTemp = pathList(adj_node, target_node)
+    #print(pathListTemp)
+
     infoListTemp = output_helper(graph, pathListTemp)
+    #pprint.pprint(infoListTemp)
+    
     prettyOutput(infoListTemp)
 
     return 
 
+    # ME = ME(graph, start, final)
+
+    # ME.pathList()
+    # - pathList
+    # infoList
+    # graph
+    # startNode, finalNode
+
+    # dijkstra / algorithms_available
+    # prettyOutput
+    # pathList
+    # calculateTime
+    # ME
+    # pathList, infoList, ...
+
+    # ME.algo("dijkstra", start, finish)
+    # ME.algo("a_star", start, finish)
+
+    # dijkstra(graph, '11', '200')
 
 sys.path.insert(1, '../../src/Graph Builder') #running
 #sys.path.insert(0, './src/Graph Builder') #debugging
@@ -135,4 +159,4 @@ tempConnections = csvReaderConnections(londonConnections, tempLines, tempStation
 graph = GraphBuilder(tempStations, tempLines, tempConnections)
 graph.load_graph()
 
-dijkstra(graph, '11', '200')
+dijkstra(graph, '11', '42')

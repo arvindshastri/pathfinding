@@ -40,16 +40,15 @@ def output_helper(graph, pathList):
         x = graph.stationsDict[pathList[count]]
         y = graph.stationsDict[pathList[count+1]]
 
-        tempAdjList = []
         potentialStations = []
         selectedStation = []
+        threshold = 3
         
         min = float('infinity')
         
         for i in graph.adj_list[x]:
             if i[0] == y:
-                tempAdjList.append(i)
-                if i[1].get_time() <= min:
+                if i[1].get_time() <= min + threshold:
                     min = i[1].get_time()
                     potentialStations.append(i)
             
