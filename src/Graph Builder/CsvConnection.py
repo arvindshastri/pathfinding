@@ -1,3 +1,6 @@
+import csv
+from Connection import connectionBuilder, Connection, ConnectionInfo
+
 def csvReaderConnections(londonConnections, lines, stations):
 
     connections = []

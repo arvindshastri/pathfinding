@@ -1,3 +1,6 @@
+import csv
+import Station
+
 def csvReaderStations(csv_stations_string):
 
     stations = {}
