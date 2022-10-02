@@ -1,4 +1,4 @@
-import DegPerNode
+from DegPerNode import numberOfDegreesPerNode
 
 def numberOfDegreesPerStation(graph):
     

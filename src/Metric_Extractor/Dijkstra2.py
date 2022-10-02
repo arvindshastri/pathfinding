@@ -110,47 +110,43 @@ def dijkstra(graph, start_node, target_node):
                 adj_node[i[0]] = cur
     
 
-    pathListTemp = pathList(adj_node, target_node)
-    #print(pathListTemp)
+    # pathListTemp = pathList(adj_node, target_node)
+    # #print(pathListTemp)
 
-    infoListTemp = output_helper(graph, pathListTemp)
-    #pprint.pprint(infoListTemp)
+    # infoListTemp = output_helper(graph, pathListTemp)
+    # #pprint.pprint(infoListTemp)
     
-    prettyOutput(infoListTemp)
+    # prettyOutput(infoListTemp)
 
-    return 
+    x = target_node
+    pathList = []
+    pathList.append(target_node.get_id())
 
-    # ME = ME(graph, start, final)
+    while True:
+        x = adj_node[x] 
+    
+        if x == None:
+            break
+        pathList.append(x.get_id())
 
-    # ME.pathList()
-    # - pathList
-    # infoList
-    # graph
-    # startNode, finalNode
+    pathList.reverse()
+    print(pathList)
 
-    # dijkstra / algorithms_available
-    # prettyOutput
-    # pathList
-    # calculateTime
-    # ME
-    # pathList, infoList, ...
-
-    # ME.algo("dijkstra", start, finish)
-    # ME.algo("a_star", start, finish)
-
-    # dijkstra(graph, '11', '200')
-
-sys.path.insert(1, '../../src/Graph Builder') #running
-#sys.path.insert(0, './src/Graph Builder') #debugging
+#sys.path.insert(1, '../../src/Graph Builder') #running
+sys.path.insert(0, './src/Graph Builder') #debugging
 
 from CsvLine import csvReaderLines
 from CsvStation import csvReaderStations
 from CsvConnection import csvReaderConnections
 from GraphBuilder import GraphBuilder
 
-londonLines = "./../../_dataset/london.lines.csv"
-londonStations = "./../../_dataset/london.stations.csv"
-londonConnections = "./../../_dataset/london.connections.csv"
+# londonLines = "./../../_dataset/london.lines.csv"
+# londonStations = "./../../_dataset/london.stations.csv"
+# londonConnections = "./../../_dataset/london.connections.csv"
+
+londonLines = "_dataset/london.lines.csv"
+londonStations = "_dataset/london.stations.csv"
+londonConnections = "_dataset/london.connections.csv"
 
 tempStations = csvReaderStations(londonStations)
 tempLines = csvReaderLines(londonLines)
@@ -158,5 +154,3 @@ tempConnections = csvReaderConnections(londonConnections, tempLines, tempStation
 
 graph = GraphBuilder(tempStations, tempLines, tempConnections)
 graph.load_graph()
-
-dijkstra(graph, '11', '42')
