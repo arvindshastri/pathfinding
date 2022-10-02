@@ -101,4 +101,5 @@ class A_Star(Strategy):
             pathList.append(x.get_id())
 
         pathList.reverse()
+        print("A*: ", pathList, "\n")
         return pathList

@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import Strategy
 from OutputHelpers import *
 
@@ -27,7 +25,7 @@ class MetricExtractor():
         self.target_node = target_node
         result = self._strategy.do_algorithm(self.graph, start_node, target_node)
         self.pathList = result
-
+        
         return result
     
     def print_output(self):

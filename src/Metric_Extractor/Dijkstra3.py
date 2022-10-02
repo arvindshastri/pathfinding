@@ -1,5 +1,4 @@
 from Strategy import Strategy
-from OutputHelpers import *
 
 class Dijkstra(Strategy):
     
@@ -36,5 +35,17 @@ class Dijkstra(Strategy):
                     path[i[0].get_id()] = alternate
                     adj_node[i[0]] = cur
         
-        pathListTemp = pathList(adj_node, target_node)
-        return pathListTemp
+        x = target_node
+        pathList = []
+        pathList.append(target_node.get_id())
+
+        while True:
+            x = adj_node[x] 
+        
+            if x == None:
+                break
+            pathList.append(x.get_id())
+
+        pathList.reverse()
+        print("Dijkstra: ", pathList, "\n")
+        return pathList
