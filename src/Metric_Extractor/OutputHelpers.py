@@ -55,6 +55,9 @@ def pathList(visited, target_node):
     pathList.reverse()
     return pathList
 
+def calculateStations(infoList):
+    return len(infoList)
+
 def calculateTime(infoList):
     total = 0
     for row in infoList:
@@ -63,12 +66,14 @@ def calculateTime(infoList):
 
 def prettyOutput(infoList):    
     
-    total = calculateTime(infoList)
+    totalStations = calculateStations(infoList)
+    totalTime = calculateTime(infoList)
+    
 
     print("{: <20} {: <30} {: <20} {: <10}".format("Stations", "Line", "Line Number", "Time"))
     print("---------------------------------------------------------------------------------")
     for row in infoList:
         print("{: <20} {: <30} {: <20} {: <10}".format(*row))
     print("\n")
-    print("{: <20} {: <30} {: <20} {: <10}".format("", "", "Total Time:", total))
+    print("{: <20} {: <30} {: <20} {: <10}".format("Total Stations:", totalStations, "Total Time:", totalTime))
     print("\n")

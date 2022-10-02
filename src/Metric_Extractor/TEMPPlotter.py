@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import pprint
 from DegPerStation import numberOfDegreesPerStation
 
 def plotDegreeFrequency(graph):
@@ -13,5 +12,6 @@ def plotDegreeFrequency(graph):
     plt.ylabel('Frequency')
     plt.title('Degree of Nodes vs Frequency')
     plt.show()
+    print("Degree of Nodes vs Frequency Values: ", degreeLengthDict)
         
     return 
