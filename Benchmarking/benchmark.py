@@ -21,7 +21,7 @@ def main():
 
 def gen_nodes() -> list[Station]:
     """generate a list of two random station objects"""
-    stations=GraphBuilder.getStationsDict().values()
+    stations=GraphBuilder.getStationsDict().values() #syntax
     upper_bound = len(stations) - 1
     i=random.randint(0,upper_bound)
     j=random.randint(0,upper_bound)
