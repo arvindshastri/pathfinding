@@ -1,51 +1,51 @@
-import heapq
-import pprint
+from Strategy import Strategy
 
-def calculate_distances(graph, starting_vertex):
-    distances = {vertex.get_id(): float('infinity') for vertex in graph.adj_list}
-    distances[starting_vertex] = 0
-
-    pq = [(0, starting_vertex)]  # distance, vertex
-
-    while len(pq) > 0:
-        current_distance, current_vertex = heapq.heappop(pq)
-
-        # Nodes can get added to the priority queue multiple times. We only
-        # process a vertex the first time we remove it from the priority queue.
-        if current_distance > distances[current_vertex]:
-            continue
+class Dijkstra(Strategy):
     
-        station = graph.stationsDict[current_vertex]
+    def do_algorithm(self, graph, start_node, target_node):
+       
+        path = {}
+        adj_node = {}
+        queue = []
+        start_node = graph.stationsDict[start_node]
+        target_node = graph.stationsDict[target_node]
 
-        for neighbor, weight in graph.adj_list[station]:
-            distance = current_distance + weight.get_time()
+        for node in graph.adj_list:
+            path[node.get_id()] = float("inf")
+            adj_node[node] = None
+            queue.append(node)
+            
+        path[start_node.get_id()] = 0
 
-            # Only consider this new path if it's better than any path we've
-            # already found.
-            index = neighbor.get_id()
+        while queue:
+            # find min distance which wasn't marked as current
+            key_min = queue[0] #station object
+            min_val = path[key_min.get_id()] #int value
+            
+            for n in range(1, len(queue)):
+                if path[queue[n].get_id()] < min_val: #int value < int value
+                    key_min = queue[n]  #object becomes object
+                    min_val = path[key_min.get_id()] #val becomes val
+            cur = key_min
+            queue.remove(cur) #obj
+            
+            for i in graph.adj_list[cur]:
+                alternate = i[1].get_time() + path[cur.get_id()]
+                if path[i[0].get_id()] > alternate:
+                    path[i[0].get_id()] = alternate
+                    adj_node[i[0]] = cur
+        
+        x = target_node
+        pathList = []
+        pathList.append(target_node.get_id())
 
-            if distance < distances[index]:
-                distances[index] = distance
-                heapq.heappush(pq, (distance, index))
+        while True:
+            x = adj_node[x] 
+        
+            if x == None:
+                break
+            pathList.append(x.get_id())
 
-    return distances
-
-#TESTING BELOW
-
-from Line import csvReaderLines
-from Station import csvReaderStations
-from Connection import csvReaderConnections
-from GraphBuilder import GraphBuilder
-
-londonLines = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.lines.csv"
-londonStations = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.stations.csv"
-londonConnections = r"D:\MacYear3\3XB3\L1Graph\l1-graph-lab\_dataset\london.connections.csv"
-
-tempStations = csvReaderStations(londonStations)
-tempLines = csvReaderLines(londonLines)
-tempConnections = csvReaderConnections(londonConnections, tempLines, tempStations)
-
-graph = GraphBuilder(tempStations, tempLines, tempConnections)
-graph.load_graph()
-
-pprint.pprint(calculate_distances(graph, '11'))
+        pathList.reverse()
+        print("Dijkstra: ", pathList, "\n")
+        return pathList

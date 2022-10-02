@@ -1,68 +1,105 @@
-from math import sin, cos, sqrt, atan2, radians
-import pprint
-from queue import PriorityQueue
-import heapq
+from Strategy import Strategy
+from OutputHelpers import *
 
-def heuristic(station1, station2):
-    R = 6373.0
-    lat1 = radians(float(station1.get_latitude()))
-    lon1 = radians(float(station1.get_longitude()))
-    lat2 = radians(float(station2.get_latitude()))
-    lon2 = radians(float(station2.get_longitude()))
+class A_Star(Strategy):
 
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
+    def get_heuristic(self, station1, station2):
 
-    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
-    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        lat1 = float(station1.get_latitude())
+        lon1 = float(station1.get_longitude())
+        lat2 = float(station2.get_latitude())
+        lon2 = float(station2.get_longitude())
 
-    return R*c
+        dlon = lon1 - lon2
+        dlat = lat1 - lat2
 
-def a_star_search(graph, start, goal):
-    pq = [(0, start)] 
-    came_from = {}
-    cost_so_far = {}
-    came_from[start] = None
-    cost_so_far[start] = 0
+        distance = dlat*dlat + dlon*dlon
+
+        return distance
+
+    def get_minimum(self, unvisited):
+        F_SCORE = 1
+        min = float('infinity')
+        tempNode = None
+        for node in unvisited:
+            if unvisited[node][F_SCORE] < min:
+                min = unvisited[node][F_SCORE]
+                tempNode = node
+        
+        return tempNode
     
-    while len(pq) > 0:
-        current_priority, current = heapq.heappop(pq)
+    def do_algorithm(self, graph, start_node, target_node):
+        # Declare the visited and unvisited lists as dictionaries
+        G_SCORE = 0
+        F_SCORE = 1
+        PREVIOUS = 2
+        visited = {} 
+        unvisited = {}
+        start_node = graph.stationsDict[start_node]
+        target_node = graph.stationsDict[target_node]
+
+        # Add and initialise every node to the unvisited list
+        for node in graph.adj_list:
+            # Initialise g-score and f-score to infinity
+            # and the previous node to None
+            unvisited[node] = [float('infinity'), float('infinity'), None]
+
+        # Update the values for the start node in the unvisited list
+        f_score_value = self.get_heuristic(start_node, target_node)
+        unvisited[start_node] = [0, f_score_value, None]
+
+        # Repeat until there are no more nodes in the unvisited list
+        finished = False
+        while finished == False:
+            # Check if there are no more nodes left to evaluate
+            if len(unvisited) == 0:
+                finished = True
+            else:
+                # Return the unvisited node with the lowest f-score
+                current_node = self.get_minimum(unvisited)
+
+                # Check if the current node is the target node
+                if current_node == target_node:
+                    # Add the current node to the visited list
+                    visited[current_node] = unvisited[current_node]
+                    finished = True
+                else:
+                    # Get the current node's list of neighbours
+                    neighbours = graph.adj_list[current_node]
+
+                    # Repeat for each neighbour node in the neighbours list
+                    for node in neighbours:
+                        # Check if the neighbour node has already been visited
+                        if node[0] not in visited:
+                            # Calculate the new g-score
+                            new_g_score = unvisited[current_node][G_SCORE] + node[1].get_time()
+
+                            tempNode = node[0]
+                            # Check if the new g-score is less
+                            if new_g_score < unvisited[tempNode][G_SCORE]:
+                                # Update g-score, f-score and previous node
+                                unvisited[tempNode][G_SCORE] = new_g_score
+                                unvisited[tempNode][F_SCORE] = new_g_score + self.get_heuristic(tempNode, target_node)
+                                unvisited[tempNode][PREVIOUS] = current_node
+
+                    # Add the current node to the visited list
+                    visited[current_node] = unvisited[current_node]
+
+                    # Remove the current node from the unvisited list
+                    del unvisited[current_node]
+
+        # Return the final visited list
+        x = target_node
+        pathList = []
+        pathList.append(target_node.get_id())
+
+        while True:
+            x = visited[x][PREVIOUS] 
         
-        if current.get_id() == goal.get_id():
-            return came_from, cost_so_far
-        
-        for next in graph.adj_list[current]:
-            tempNode = next[0]
-            new_cost = cost_so_far[current] + next[1].get_time()
-            if tempNode not in cost_so_far or new_cost < cost_so_far[tempNode]:
-                cost_so_far[tempNode] = new_cost
-                priority = new_cost + heuristic(tempNode, goal)
-                heapq.heappush(pq, (priority, tempNode))
-                came_from[tempNode] = current
+            if x == None:
+                break
+            pathList.append(x.get_id())
 
-    for i in cost_so_far.keys():
-        print(i.get_id())
-
-
-    return came_from, cost_so_far
-
-sys.path.insert(1, '../../src/Graph Builder') #running
-#sys.path.insert(0, './src/Graph Builder') #debugging
-
-from CsvLine import csvReaderLines
-from CsvStation import csvReaderStations
-from CsvConnection import csvReaderConnections
-from GraphBuilder import GraphBuilder
-
-londonLines = "./../../_dataset/london.lines.csv"
-londonStations = "./../../_dataset/london.stations.csv"
-londonConnections = "./../../_dataset/london.connections.csv"
-
-tempStations = csvReaderStations(londonStations)
-tempLines = csvReaderLines(londonLines)
-tempConnections = csvReaderConnections(londonConnections, tempLines, tempStations)
-
-graph = GraphBuilder(tempStations, tempLines, tempConnections)
-graph.load_graph()
-
-pprint.pprint(a_star_search(graph, graph.stationsDict['11'], graph.stationsDict['163']))
+        pathList.reverse()
+        print("A*: ", pathList, "\n")
+        return pathList

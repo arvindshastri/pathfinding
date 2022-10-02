@@ -8,20 +8,22 @@ from CsvLine import csvReaderLines
 from CsvStation import csvReaderStations
 from CsvConnection import csvReaderConnections
 from GraphBuilder import GraphBuilder
-from A_Star3 import A_Star
+from A_StarBenchmark import *
+from DijkstraBenchmark import *
 
 def main():
     runner = pyperf.Runner()
     graph = graph_generation()
     randomNodes=random_nodes(graph)
-    runner.bench_func('A_Star3', A_Star.do_algorithm, (graph,randomNodes[0],randomNodes[1]) )
+    runner.bench_func('a_star', a_star, graph, randomNodes[0], randomNodes[1]) 
+    runner.bench_func('dijkstra', dijkstra, graph, randomNodes[0], randomNodes[1])
 
 def random_nodes(graph):
     stations = list(graph.get_stationsDict().values()) #syntax
     upper_bound = len(stations) - 1
     i=random.randint(0,upper_bound)
     j=random.randint(0,upper_bound)
-    return [stations[i],stations[j]]
+    return [stations[i].get_id(),stations[j].get_id()]
 
 def graph_generation():
     londonLines = "_dataset/london.lines.csv"

@@ -110,47 +110,6 @@ def dijkstra(graph, start_node, target_node):
                 adj_node[i[0]] = cur
     
 
-    # pathListTemp = pathList(adj_node, target_node)
-    # #print(pathListTemp)
+   
+    return
 
-    # infoListTemp = output_helper(graph, pathListTemp)
-    # #pprint.pprint(infoListTemp)
-    
-    # prettyOutput(infoListTemp)
-
-    x = target_node
-    pathList = []
-    pathList.append(target_node.get_id())
-
-    while True:
-        x = adj_node[x] 
-    
-        if x == None:
-            break
-        pathList.append(x.get_id())
-
-    pathList.reverse()
-    print(pathList)
-
-#sys.path.insert(1, '../../src/Graph Builder') #running
-sys.path.insert(0, './src/Graph Builder') #debugging
-
-from CsvLine import csvReaderLines
-from CsvStation import csvReaderStations
-from CsvConnection import csvReaderConnections
-from GraphBuilder import GraphBuilder
-
-# londonLines = "./../../_dataset/london.lines.csv"
-# londonStations = "./../../_dataset/london.stations.csv"
-# londonConnections = "./../../_dataset/london.connections.csv"
-
-londonLines = "_dataset/london.lines.csv"
-londonStations = "_dataset/london.stations.csv"
-londonConnections = "_dataset/london.connections.csv"
-
-tempStations = csvReaderStations(londonStations)
-tempLines = csvReaderLines(londonLines)
-tempConnections = csvReaderConnections(londonConnections, tempLines, tempStations)
-
-graph = GraphBuilder(tempStations, tempLines, tempConnections)
-graph.load_graph()

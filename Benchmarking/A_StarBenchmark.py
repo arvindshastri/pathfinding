@@ -162,31 +162,8 @@ def a_star(graph, start_node, target_node):
                 # Remove the current node from the unvisited list
                 del unvisited[current_node]
 
-    # Return the final visited list
-    pathListTemp = pathList(visited, target_node)
-    infoListTemp = output_helper(graph, pathListTemp)
-    prettyOutput(infoListTemp)
+    
 
     return 
 
 
-sys.path.insert(1, '../../src/Graph Builder') #running
-#sys.path.insert(0, './src/Graph Builder') #debugging
-
-from CsvLine import csvReaderLines
-from CsvStation import csvReaderStations
-from CsvConnection import csvReaderConnections
-from GraphBuilder import GraphBuilder
-
-londonLines = "./../../_dataset/london.lines.csv"
-londonStations = "./../../_dataset/london.stations.csv"
-londonConnections = "./../../_dataset/london.connections.csv"
-
-tempStations = csvReaderStations(londonStations)
-tempLines = csvReaderLines(londonLines)
-tempConnections = csvReaderConnections(londonConnections, tempLines, tempStations)
-
-graph = GraphBuilder(tempStations, tempLines, tempConnections)
-graph.load_graph()
-
-aStar = a_star(graph, '11', '30')
