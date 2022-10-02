@@ -1,5 +1,6 @@
 import csv
-from Station import *
+from Station import Station
+
 
 def csvReaderStations(csv_stations_string):
 
@@ -11,6 +12,7 @@ def csvReaderStations(csv_stations_string):
         position = headers.index('id')
         for row in reader:
             index = row[position]
-            stations[index] = Station(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
-    
+            stations[index] = Station(
+                row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
+
     return stations

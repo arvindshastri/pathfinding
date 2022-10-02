@@ -1,7 +1,7 @@
 class GraphBuilder():
 
     adj_list = {}
-    mylist = []
+    nodeList = []
 
     def __init__(self, stationsDict, linesDict, connectionsList):
         self.stationsDict = stationsDict
@@ -11,25 +11,29 @@ class GraphBuilder():
     def get_stationsDict(self):
         return self.stationsDict
 
-    def add_station(self, station):  # equivalent to adding nodes into existence
-        
+    # adding stations that are not already present within nodeList
+    def add_station(self, station):
         inside = False
-        for i in self.mylist:
+        for i in self.nodeList:
             if station.get_id() == i.get_id():
                 inside = True
-        
-        if inside == False:
-            self.mylist.append(station)
-        
 
-    def add_line(self, connection):  # equivalent to adding edges into existence
+        if inside is False:
+            self.nodeList.append(station)
+
+    def add_line(self, connection):
         temp = []
         connectionInfo = connection.get_information()
         station1 = connection.get_station1()
         station2 = connection.get_station2()
 
-        if any(node is station1 for node in self.mylist) and any(node is station2 for node in self.mylist):  # if stations valid
+        statement1 = any(node is station1 for node in self.nodeList)
+        statement2 = any(node is station2 for node in self.nodeList)
 
+        # if there are valid nodes within nodeList
+        if statement1 and statement2:
+
+            # if there are is no existing mapped node in adjacency list
             if not any(node is station1 for node in self.adj_list):
                 temp.append([station2, connectionInfo])
                 self.adj_list[station1] = temp
@@ -39,8 +43,8 @@ class GraphBuilder():
                 temp.append([station2, connectionInfo])
                 self.adj_list[station1] = temp
 
-
     def load_graph(self):
+        # automates adding all stations and connections to graph
         for station in self.stationsDict.values():
             self.add_station(station)
 

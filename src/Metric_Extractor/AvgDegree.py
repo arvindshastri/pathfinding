@@ -1,5 +1,6 @@
-import DegPerNode
-import NodeNumber
+from DegPerNode import numberOfDegreesPerNode
+from NodeNumber import numberOfNodes
+
 
 def averageDegree(graph):
     numDeg = sum(numberOfDegreesPerNode(graph).values())
