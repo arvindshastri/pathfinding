@@ -1,2 +1,7 @@
-def numberOfNodes(graph):
-    return len(graph.stationsDict)
+from Metric import Metric
+
+
+class NodeNumber(Metric):
+
+    def compute_metric(self, graph):
+        return len(graph.stationsDict)
