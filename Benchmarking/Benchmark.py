@@ -12,21 +12,9 @@ from A_StarBenchmark import *
 from DijkstraBenchmark import *
 
 def main():
-    runner = pyperf.Runner()
     graph = graph_generation()
     randomNodes=random_nodes(graph)
-    print('Nodes visited:')
-    runner.bench_func('a_star', a_star, graph, randomNodes[0], randomNodes[1]) 
-    i=0
-    runs = 20
-    average = []
-    temp = 0
-    while (i < runs):
-        temp=dijkstra(graph,randomNodes[0], randomNodes[1])
-        average.append(temp)
-        i+=1
-    print(sum(average)/runs)
-    runner.bench_func('dijkstra', dijkstra, graph, randomNodes[0], randomNodes[1])
+    do_bench(randomNodes,graph)
     
 def random_nodes(graph):
     stations = list(graph.get_stationsDict().values()) #syntax
@@ -48,4 +36,18 @@ def graph_generation():
     graph.load_graph()
     return graph
 
+def do_bench(nodes, graph):
+    runner = pyperf.Runner()
+    runner.bench_func('a_star', a_star, graph, nodes[0], nodes[1]) 
+    print('Nodes visited:')
+    i=0
+    runs = 20 #pyperf runs the algorithm 20 times per instance
+    average = []
+    temp = 0
+    while (i < runs):
+        temp=dijkstra(graph,nodes[0], nodes[1])
+        average.append(temp)
+        i+=1
+    print(sum(average)/runs)
+    runner.bench_func('dijkstra', dijkstra, graph, nodes[0], nodes[1])
 main()
