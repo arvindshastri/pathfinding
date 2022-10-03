@@ -38,14 +38,14 @@ class MetricExtractor():
 
     # method to use metric's abstract method to
     # compute metric
-    def compute_metric(self, metric) -> None:
+    def compute_metric(self, metric):
         self._metric = metric
         result = self._metric.compute_metric(self.graph)
         return result
 
     # method to use algorithms's abstract method to
     # compute metric
-    def algorithm(self, start_node, target_node) -> None:
+    def algorithm(self, start_node, target_node):
         self.start_node = start_node
         self.target_node = target_node
 

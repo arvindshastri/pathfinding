@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from Metric import Metric
-import DegreePerStation
+
 
 class Plotter(Metric):
 
@@ -20,18 +20,18 @@ class Plotter(Metric):
         return degreeLengthDict
 
     def numberOfStationsPerNode(self, graph):
-        
+
         degreesList = {}
 
         degreeLengthDict = self.numberOfDegreesPerNode(graph)
-        
+
         for i in degreeLengthDict:
             deg = degreeLengthDict[i]
             if deg in degreesList:
                 degreesList[deg] += 1
             else:
                 degreesList[deg] = 1
-        
+
         return degreesList
 
     def compute_metric(self, graph):

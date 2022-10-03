@@ -5,7 +5,7 @@ class AverageDegree(Metric):
 
     def numberOfNodes(self, graph):
         return len(graph.stationsDict)
-    
+
     def numberOfDegreesPerNode(self, graph):
 
         degreeLengthDict = {}
@@ -22,5 +22,5 @@ class AverageDegree(Metric):
         return degreeLengthDict
 
     def compute_metric(self, graph):
-        numDeg = sum( self.numberOfDegreesPerNode(graph).values() )
+        numDeg = sum(self.numberOfDegreesPerNode(graph).values())
         return (numDeg / self.numberOfNodes(graph))
