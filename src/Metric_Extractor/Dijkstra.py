@@ -61,5 +61,7 @@ class Dijkstra(Strategy):
         pathList.reverse()
 
         # declare as Dijkstra and return
-        print("Dijkstra: ", pathList, "\n")
+        if start_node != target_node:
+            print("Dijkstra: ", pathList, "\n")
+
         return pathList
