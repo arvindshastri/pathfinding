@@ -15,9 +15,19 @@ def main():
     runner = pyperf.Runner()
     graph = graph_generation()
     randomNodes=random_nodes(graph)
+    print('Nodes visited:')
     runner.bench_func('a_star', a_star, graph, randomNodes[0], randomNodes[1]) 
+    i=0
+    runs = 20
+    average = []
+    temp = 0
+    while (i < runs):
+        temp=dijkstra(graph,randomNodes[0], randomNodes[1])
+        average.append(temp)
+        i+=1
+    print(sum(average)/runs)
     runner.bench_func('dijkstra', dijkstra, graph, randomNodes[0], randomNodes[1])
-
+    
 def random_nodes(graph):
     stations = list(graph.get_stationsDict().values()) #syntax
     upper_bound = len(stations) - 1

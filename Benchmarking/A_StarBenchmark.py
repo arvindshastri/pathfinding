@@ -164,6 +164,6 @@ def a_star(graph, start_node, target_node):
 
     
 
-    return 
+    return len(visited)
 
 

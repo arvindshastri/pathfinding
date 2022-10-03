@@ -83,6 +83,7 @@ def dijkstra(graph, start_node, target_node):
     queue = []
     start_node = graph.stationsDict[start_node]
     target_node = graph.stationsDict[target_node]
+    nodes_visited = 0
 
     for node in graph.adj_list:
         path[node.get_id()] = float("inf")
@@ -108,8 +109,6 @@ def dijkstra(graph, start_node, target_node):
             if path[i[0].get_id()] > alternate:
                 path[i[0].get_id()] = alternate
                 adj_node[i[0]] = cur
-    
-
-   
-    return
+                nodes_visited +=1
+    return nodes_visited 
 
