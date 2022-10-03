@@ -1,6 +1,9 @@
 import pyperf
 import random
 import sys
+sys.path.append('.\src\Graph_Builder')  # noqa: W605
+sys.path.append('.\src\Metric_Extractor')  # noqa: W605
+sys.path.append('.\_dataset')  # noqa: W605
 from CsvLine import csvReaderLines
 from CsvStation import csvReaderStations
 from CsvConnection import csvReaderConnections
@@ -8,9 +11,7 @@ from GraphBuilder import GraphBuilder
 from A_StarBenchmark import a_star
 from DijkstraBenchmark import dijkstra
 
-sys.path.append('.\src\Graph_Builder')  # noqa: W605
-sys.path.append('.\src\Metric_Extractor')  # noqa: W605
-sys.path.append('.\_dataset')  # noqa: W605
+
 
 
 def main():
